@@ -1,0 +1,86 @@
+[
+    {
+        "model": "tmitweets.tmitweet",
+        "pk": 63934172120625152,
+        "fields": {
+            "ups": 0,
+            "downs": 0,
+            "twitter_user_id": "90512871", 
+            "created": "2011-04-29 13:00:47", 
+            "text": "LOL I was just thinking about taking my vagina in to the vagina shop for some work.", 
+            "tweet_id": 63934172120625152, 
+            "image_url": "http://a3.twimg.com/profile_images/1249840560/IMG_9713_medsize_crop_normal.jpg", 
+            "twitter_username": "SarahDiavola"
+        }
+    }, 
+    {
+        "model": "tmitweets.tmitweet", 
+        "pk":63931531768500224,
+        "fields": {
+            "twitter_user_id": "69581845", 
+            "created": "2011-04-29 13:01:22", 
+            "ups": 0,
+            "downs": 0,
+            "text": "Now that I've divulged into a more sexual conversation I'm starting to get a little aroused and horny #dirty #TMI", 
+            "tweet_id": 63931531768500224, 
+            "image_url": "http://a2.twimg.com/profile_images/1313154264/image_normal.jpg", 
+            "twitter_username": "iamthewhiteboy"
+        }
+    }, 
+    {
+        "model": "tmitweets.tmitweet", 
+        "pk":63929359576219648,
+        "fields": {
+            "twitter_user_id": "4561310", 
+            "ups": 0,
+            "downs": 0,
+            "created": "2011-04-29 13:02:01", 
+            "text": "I didn't know one person could produce this much mucus.", 
+            "tweet_id": 63929359576219648, 
+            "image_url": "http://a0.twimg.com/profile_images/1317885722/playoffbeard__2__normal.jpg", 
+            "twitter_username": "lizabih"
+        }
+    }, 
+    {
+        "model": "tmitweets.tmitweet", 
+        "pk": 63928730023759872,
+        "fields": {
+            "ups": 0,
+            "downs": 0,
+            "twitter_user_id": "24198542", 
+            "created": "2011-04-29 13:02:21", 
+            "text": "Quick wee and then I'll be back in time for the kiss. You didn't need to know that, did you?", 
+            "tweet_id": 63928730023759872, 
+            "image_url": "http://a2.twimg.com/profile_images/1315169796/Bubberts_normal.jpg", 
+            "twitter_username": "bubberts"
+        }
+    }, 
+    {
+        "model": "tmitweets.tmitweet", 
+        "pk":63922941850693632,
+        "fields": {
+            "twitter_user_id": "144125401", 
+            "ups": 0,
+            "downs": 0,
+            "created": "2011-04-29 13:03:21", 
+            "text": "I feel a growler comin' on.", 
+            "tweet_id": 63922941850693632, 
+            "image_url": "http://a3.twimg.com/profile_images/1300942850/R5D4-BadMotivator_normal.jpg", 
+            "twitter_username": "ArfiveDefour"
+        }
+    }, 
+    {
+        "model": "tmitweets.tmitweet", 
+        "pk": 63917019392774144,
+        "fields": {
+            "twitter_user_id": "96910892", 
+            "ups": 0,
+            "downs": 0,
+            "created": "2011-04-29 13:04:21", 
+            "text": "I actually need a wee but don't wanna miss the good stuff! Gunna run now while it's dull stuff", 
+            "tweet_id": 63917019392774144, 
+            "image_url": "http://a1.twimg.com/profile_images/1156812754/EOB_Twitter_logo_normal.jpg", 
+            "twitter_username": "empireofbooks"
+        }
+    } 
+]
