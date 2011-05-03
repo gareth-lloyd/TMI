@@ -4,6 +4,7 @@ from django.utils import simplejson
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.functional import wraps
 from django.http import HttpResponse
+from datetime import datetime, date, timedelta
 
 def return_json(view):
     def wrapper(request, *args, **kwargs):
@@ -18,7 +19,9 @@ def return_json(view):
 
 @return_json
 def tweets(request):
-    return {'tweets': list(TMITweet.objects.all())}
+    start = datetime.now() - timedelta(1)
+    tweets = list(TMITweet.objects.filter(created__gte=start))
+    return {'tweets': tweets}
 
 @return_json
 def vote(request, tweet_id=None):

@@ -6,8 +6,8 @@ class TMITweet(models.Model):
     twitter_username= models.CharField(max_length=100)
     image_url = models.CharField(max_length=200)
     created = models.DateTimeField()
-    text = models.CharField(max_length=150)
-
+    text = models.CharField(max_length=200)
     ups = models.IntegerField()
-    downs = models.IntegerField()
-
+    
+    class Meta:
+        ordering = ['-created']

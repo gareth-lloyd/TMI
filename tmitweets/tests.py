@@ -1,6 +1,7 @@
 from models import TMITweet
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from datetime import datetime
 import views
 import json
 
@@ -8,11 +9,18 @@ from scheduled import *
 
 class EndpointTests(TestCase):
     fixtures = ['tweets']
+
+    def setUp(self):
+        # set today's date for one tweet
+        tweet = TMITweet.objects.all()[0]
+        tweet.created = datetime.now()
+        tweet.save()
+
     def test_tweets(self):
         response = self.client.get(reverse(views.tweets))
         tweets = json.loads(response.content)
         self.assertEqual(200, response.status_code)
-        self.assertEqual(6, len(tweets['tweets']))
+        self.assertEqual(1, len(tweets['tweets']))
 
     def test_vote_up(self):
         response = self.client.post(reverse(views.vote, 
@@ -107,25 +115,39 @@ class EndpointTests(TestCase):
         self.assertEqual(400, response.status_code)
 
 class ScheduledTests(TestCase):
+    def load_json(self, filename):
+        with open('tmitweets/fixtures/' + filename, 'r') as f:
+            return json.loads(f.read())
+
     def test_result_to_tmi(self):
-        result = json.loads("""{"from_user_id_str": "162143438",
-            "profile_image_url": "http://a1.twimg.com/profile_images/1331393601/JM0_MiNAj_normal.jpg",
-            "created_at": "Sat, 30 Apr 2011 10:44:20 +0000",
-            "from_user": "JM0_MiNAj",
-            "id_str": "64278906122944512",
-              "metadata": {
-                  "result_type": "recent"
-              },
-            "to_user_id": null,
-            "text": "I feel like massaging my clit...#TMI and Idk!!!",
-            "id": 64278906122944510,
-            "from_user_id": 162143438,
-            "geo": null,
-            "iso_language_code": "en",
-            "to_user_id_str": null,
-            "source": "&lt;a href=&quot;http://levelupstudio.com&quot; rel=&quot;nofollow&quot;&gt;Plume  &lt;/a&gt;"
-        }""")
+        result = self.load_json('standard_tweet.json')
         tmi_tweet = result_to_tmi_tweet(result)
         tmi_tweet.save()
+    
+    def test_filter_pass(self):
+        result = self.load_json('standard_tweet.json')
+        self.assertTrue(filter_result(result))
+
+    def test_filter_to_user(self):
+        result = self.load_json('tweet_with_to_user.json')
+        self.assertFalse(filter_result(result))
+    
+    def test_filter_unwanted_user(self):
+        result = self.load_json('tweet_from_unwanted_user.json')
+        self.assertFalse(filter_result(result))
         
-        
+    def test_filter_length(self):
+        result = self.load_json('short_tweet.json')
+        self.assertFalse(filter_result(result))
+    
+    def test_filter_at_reply(self):
+        result = self.load_json('at_reply_tweet.json')
+        self.assertFalse(filter_result(result))
+    
+    def test_filter_RT(self):
+        result = self.load_json('retweet.json')
+        self.assertFalse(filter_result(result))
+ 
+    def test_filter_link(self):
+        result = self.load_json('link_tweet.json')
+        self.assertFalse(filter_result(result))
