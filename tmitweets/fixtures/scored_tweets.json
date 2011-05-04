@@ -18,7 +18,7 @@
         "fields": {
             "twitter_user_id": "69581845", 
             "created": "2011-04-29 13:01:22", 
-            "ups": 0,
+            "ups": 1,
             "text": "Now that I've divulged into a more sexual conversation I'm starting to get a little aroused and horny #dirty #TMI", 
             "tweet_id": 63931531768500224, 
             "image_url": "http://a2.twimg.com/profile_images/1313154264/image_normal.jpg", 
@@ -30,7 +30,7 @@
         "pk":63929359576219648,
         "fields": {
             "twitter_user_id": "4561310", 
-            "ups": 0,
+            "ups": 3,
             "created": "2011-04-29 13:02:01", 
             "text": "I didn't know one person could produce this much mucus.", 
             "tweet_id": 63929359576219648, 
@@ -42,7 +42,7 @@
         "model": "tmitweets.tmitweet", 
         "pk": 63928730023759872,
         "fields": {
-            "ups": 0,
+            "ups": 6,
             "twitter_user_id": "24198542", 
             "created": "2011-04-29 13:02:21", 
             "text": "Quick wee and then I'll be back in time for the kiss. You didn't need to know that, did you?", 

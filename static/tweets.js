@@ -14,7 +14,9 @@ var TMITweetView = new Class({
                 div({'class': 'tweet-text'},
                     '"' + data.text + '"'
                 ),
-                div({'class': 'voting'})
+                div({'class': 'votes'}, data.upVotes),
+                div({'class': 'voting'}),
+                div({'class': 'errors'})
             );
         });
         this.registerTemplate('TMIVoteForm', function(voteData) {
@@ -33,26 +35,66 @@ var TMITweetView = new Class({
     },
 
     setUpVoting: function() {
-        var voteDiv = this.element.getElement('.voting');
-        var upVote = this.renderTemplate('TMIVoteForm', {
+        this.voteDiv = this.element.getElement('.voting');
+        this.upVote = this.renderTemplate('TMIVoteForm', {
             tweetId: this.tweetId,
             voteValue: 1
         });
-        upVote.addEvent('submit', this.submitVote);
-
-        var downVote = this.renderTemplate('TMIVoteForm', {
+        this.downVote = this.renderTemplate('TMIVoteForm', {
             tweetId: this.tweetId,
             voteValue: -1
         });
-        downVote.addEvent('submit', this.submitVote);
-        voteDiv.adopt(upVote, downVote);
-    },
+        
+        var submitVote = function(e) {
+            e.preventDefault();
+            this.send();
+        }
 
-    submitVote: function(e) {
-        e.preventDefault();
-        this.send();
+        this.upVote.addEvent('submit', submitVote);
+        this.upVote.set('send', {
+            onSuccess: this.haveUpVoted.bind(this),
+            onFailure: this.voteFailed.bind(this)
+        });
+        
+        this.downVote.addEvent('submit', submitVote);
+        this.downVote.set('send', {
+            onSuccess: this.haveDownVoted.bind(this),
+            onFailure: this.voteFailed.bind(this)
+        });
+        
+        if (oversharers.userVotes[this.tweetId]) {
+            this.haveUpVoted(); 
+        } else {
+            this.haveDownVoted();
+        }
     },
-
+    
+    haveUpVoted: function(response) {
+        this.updateVotes(response);
+        this.voteDiv.getChildren().each(function(el) {el.dispose()});
+        this.voteDiv.grab(this.downVote);
+        // clear any previous errors:
+        this.element.getElement('.errors').set('text', '');
+        // TODO show vote effect
+    },
+    updateVotes: function(response) {
+        if (response == undefined)
+            return;
+        var voteVal = JSON.parse(response)['acceptedVote'];
+        this.upVotes += voteVal;
+        this.element.getElement('.votes').set('text', this.upVotes);
+    },
+    haveDownVoted: function(response) {
+        this.updateVotes(response);
+        this.voteDiv.getChildren().each(function(el) {el.dispose()});
+        this.voteDiv.grab(this.upVote);
+        this.element.getElement('.errors').set('text', '');
+        // TODO show vote effect
+    },
+    voteFailed: function(response) {
+        var error = JSON.parse(response.responseText);
+        this.element.getElement('.errors').set('text', error['error']);
+    },
     toElement: function() {
         return this.element;
     },
@@ -68,10 +110,14 @@ var TMITweetView = new Class({
 });
 
 var oversharers = {
+    userVotes: {},
+
     twitterLink: function(username) {
         return "http://twitter.com/" + username;
     },
     createTweets: function(data) {
+        oversharers.setUpUserVotes();
+
         var tweets = data['tweets'];
         var tweetViews = tweets.map(function(tweetData) {
             return new TMITweetView(tweetData);
@@ -84,6 +130,15 @@ var oversharers = {
             };
             showTweet.delay(index * 100);
         });
+    },
+    setUpUserVotes: function() {
+        var cookieVal = Cookie.read('displayvotes')
+        if (cookieVal) {
+            ids = cookieVal.split('|');
+            Array.each(ids, function(id){
+                oversharers.userVotes[id] = true;
+            });
+        }
     }
 }
 

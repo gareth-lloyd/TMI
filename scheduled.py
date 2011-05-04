@@ -54,7 +54,7 @@ def result_to_tmi_tweet(result):
            image_url=result['profile_image_url'],
            created=date_from_twitter(result['created_at']),
            text=text,
-           ups=0, downs=0
+           ups=0
         )
 
 def filter_result(result):

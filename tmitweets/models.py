@@ -11,3 +11,7 @@ class TMITweet(models.Model):
     
     class Meta:
         ordering = ['-created']
+
+class Winner(models.Model):
+    tweet = models.ForeignKey(TMITweet)
+    day = models.DateField(unique=True)
