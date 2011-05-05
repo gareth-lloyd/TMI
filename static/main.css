@@ -9,21 +9,21 @@
  */
 
 body {
-    background: #CC333F;
+    background: url('/static/bg.png') fixed center center;
     margin: 0;
     font-family: sans-serif;
 }
 h1 {
     margin: 0;
     padding: 1em;
-    color: #6A4A3C;
+    color: #CC333F;
 }
 /********
  * LAYOUT
  *******/
 #container {
     background: #EB6841;
-    margin: 0 auto 0 100px;
+    margin: 0 auto;
     padding: 0 10px;
     width: 600px;
 }
