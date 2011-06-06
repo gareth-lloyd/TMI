@@ -70,7 +70,6 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
@@ -91,8 +90,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'tmi.tmitweets',
+    'tmi.redis_sessions',
 )
 
 # SESSION SETTINGS
 # 24 hours:
 SESSION_COOKIE_AGE=86400
+SESSION_ENGINE='tmi.redis_sessions.backend'

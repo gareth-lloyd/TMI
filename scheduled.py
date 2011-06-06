@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from tmitweets.models import TMITweet
 from scripts import twitter
 from datetime import datetime
@@ -58,9 +59,12 @@ def result_to_tmi_tweet(result):
         )
 
 def filter_result(result):
+    print result
     if result['to_user_id'] is not None:
         return False
     if result['from_user'] in UNWANTED_USERS:
+        return False
+    if result.get('iso_language_code', 'en') != 'en':
         return False
     text = result['text']
     if len(text) < 32:
