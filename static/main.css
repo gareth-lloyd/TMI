@@ -27,6 +27,10 @@ h1 {
     padding: 0 10px;
     width: 600px;
 }
+#winner {
+    background: #CC333F;
+    padding: 5px;
+}
 #tweets {
     padding: 0 0 1000px 0 ;
 }

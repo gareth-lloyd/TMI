@@ -59,7 +59,6 @@ def result_to_tmi_tweet(result):
         )
 
 def filter_result(result):
-    print result
     if result['to_user_id'] is not None:
         return False
     if result['from_user'] in UNWANTED_USERS:

@@ -6,3 +6,4 @@ jmeter_tests.jmx
 mocks/
 notes/
 last_seen_persisted.txt
+scripts/twitter_credentials.py

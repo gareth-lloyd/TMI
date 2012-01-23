@@ -1,5 +1,3 @@
-Simple hack to avoid watching the royal wedding
-
 Find tweets tagged #tmi. Allow votes on whether they do indeed contain TMI. @reply the scoringest tweets to let them know they have overshared. 
 
 Filter for inclusion in page:
@@ -9,3 +7,5 @@ Filter for inclusion in page:
 - question mark #tmi? is a positive
 - look out for negative modifiers e.g. 'not #tmi'
 - other criteria tbc
+
+One of those things that I might put online someday...

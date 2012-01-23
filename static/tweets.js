@@ -19,6 +19,15 @@ var TMITweetView = new Class({
                 div({'class': 'errors'})
             );
         });
+    },
+    toElement: function() {
+        return this.element;
+    }
+});
+var TMICandidateTweet = new Class({
+    Extends: TMITweetView,
+    initialize: function(data) {
+        this.parent(data);
         this.registerTemplate('TMIVoteForm', function(voteData) {
             form({method: 'post', action: '../tweets/' + voteData.tweetId + '/vote/'},
                 input({'class': 'vote-value',
@@ -27,7 +36,7 @@ var TMITweetView = new Class({
                     value: '' + voteData.voteValue}),
                 input({'class': 'vote-button value' + voteData.voteValue,
                     type: 'submit',
-                    value: '' + voteData.voteValue}) 
+                    value: '' + voteData.voteValue})
             );
         });
         this.element = this.renderTemplate('TMITweetView', this);
@@ -44,7 +53,7 @@ var TMITweetView = new Class({
             tweetId: this.tweetId,
             voteValue: -1
         });
-        
+
         var submitVote = function(e) {
             e.preventDefault();
             this.send();
@@ -55,20 +64,20 @@ var TMITweetView = new Class({
             onSuccess: this.haveUpVoted.bind(this),
             onFailure: this.voteFailed.bind(this)
         });
-        
+
         this.downVote.addEvent('submit', submitVote);
         this.downVote.set('send', {
             onSuccess: this.haveDownVoted.bind(this),
             onFailure: this.voteFailed.bind(this)
         });
-        
+
         if (oversharers.userVotes[this.tweetId]) {
-            this.haveUpVoted(); 
+            this.haveUpVoted();
         } else {
             this.haveDownVoted();
         }
     },
-    
+
     haveUpVoted: function(response) {
         this.updateVotes(response);
         this.voteDiv.getChildren().each(function(el) {el.dispose()});
@@ -95,10 +104,6 @@ var TMITweetView = new Class({
         var error = JSON.parse(response.responseText);
         this.element.getElement('.errors').set('text', error['error']);
     },
-    toElement: function() {
-        return this.element;
-    },
-
     fadeIn: function() {
         this.element.set('opacity', 0);
         new Fx.Tween(this.element, {
@@ -106,7 +111,15 @@ var TMITweetView = new Class({
             property: 'opacity'
         }).start(0, 1);
     }
-      
+});
+
+var TMIWinnerView = new Class({
+    Extends: TMITweetView,
+    initialize: function(data) {
+        this.parent(data);
+        Object.append(this, data);
+        this.element = this.renderTemplate('TMITweetView', this);
+    },
 });
 
 var oversharers = {
@@ -120,7 +133,7 @@ var oversharers = {
 
         var tweets = data['tweets'];
         var tweetViews = tweets.map(function(tweetData) {
-            return new TMITweetView(tweetData);
+            return new TMICandidateTweet(tweetData);
         });
         var tweetContainer = $('tweets');
         Array.each(tweetViews, function(tweetView, index) {
@@ -130,6 +143,11 @@ var oversharers = {
             };
             showTweet.delay(index * 100);
         });
+    },
+    createWinner: function(data) {
+        var winnerContainer = $('winner');
+        var winner = new TMIWinnerView(data.winner);
+        winner.toElement().inject(winnerContainer);
     },
     setUpUserVotes: function() {
         var cookieVal = Cookie.read('displayvotes')
@@ -147,5 +165,10 @@ window.addEvent('domready', function() {
         url: '../tweets/',
         method: 'get',
         onSuccess: oversharers.createTweets
+    }).send();
+    new Request.JSON({
+        url: '../tweets/winner/',
+        method: 'get',
+        onSuccess: oversharers.createWinner
     }).send();
 });
